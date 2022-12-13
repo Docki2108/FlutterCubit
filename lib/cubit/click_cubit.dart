@@ -11,7 +11,7 @@ class ClickCubit extends Cubit<ClickState> {
       secondCount++;
 
       if (secondCount >= 5) {
-        increment(updateCount: false);
+        plus(updateCount: false);
       }
       emit(state);
     });
@@ -26,37 +26,25 @@ class ClickCubit extends Cubit<ClickState> {
       secondCount++;
 
       if (secondCount >= 5) {
-        increment(updateCount: false);
+        plus(updateCount: false);
       }
       emit(state);
     });
   }
 
-  void saveShared() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    prefs.setStringList('logs', logs);
-    prefs.setInt('count', count);
-    prefs.setBool('type_theme', type);
-  }
-
-  void increment({bool updateCount = true}) {
+  void plus({bool updateCount = true}) {
     count += type ? 1 : 2;
 
     logs.add("+ ${type ? 1 : 2}");
-    saveShared();
     if (updateCount == true) {
       secondCount = 0;
     }
     emit(Click(count, logs));
   }
 
-  void decrement() {
+  void minus() {
     count -= type ? 1 : 2;
-
     logs.add("- ${type ? 1 : 2}");
-
-    saveShared();
     secondCount = 0;
     emit(
       Click(count, logs),
@@ -66,19 +54,13 @@ class ClickCubit extends Cubit<ClickState> {
   void changeTheme() {
     type = !type;
     logs.add("use theme ${type ? 'white' : 'black'}");
-
-    saveShared();
     secondCount = 0;
     emit(
       Click(count, logs),
     );
   }
 
-  void deleteAllDataInSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove('logs');
-    prefs.remove('count');
-    prefs.remove('type_theme');
+  void delete() async {
     secondCount = 0;
     logs.clear();
     count = 0;

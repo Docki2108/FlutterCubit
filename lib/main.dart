@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<theme_cubit, ThemeMode>(
         builder: (context, state) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: ThemeData.light(),
             darkTheme: ThemeData.dark(),
             themeMode: state,
@@ -47,14 +48,13 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(30.0),
               child: BlocBuilder<ClickCubit, ClickState>(
                 builder: (context, state) {
                   if (state is Click) {
                     return Text(state.count.toString());
                   }
-
-                  return const Text("0");
+                  return const Text("");
                 },
               ),
             ),
@@ -62,12 +62,12 @@ class MyHomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(
-                  onPressed: () => context.read<ClickCubit>().decrement(),
+                  onPressed: () => context.read<ClickCubit>().minus(),
                   tooltip: '-',
                   child: const Icon(Icons.remove),
                 ),
                 FloatingActionButton(
-                  onPressed: () => context.read<ClickCubit>().increment(),
+                  onPressed: () => context.read<ClickCubit>().plus(),
                   tooltip: '+',
                   child: const Icon(Icons.add),
                 ),
@@ -80,32 +80,33 @@ class MyHomePage extends StatelessWidget {
                   child: const Icon(Icons.sunny),
                 ),
                 FloatingActionButton(
-                  onPressed: () => context
-                      .read<ClickCubit>()
-                      .deleteAllDataInSharedPreferences(),
+                  onPressed: () => context.read<ClickCubit>().delete(),
                   tooltip: 'delete share',
                   child: const Icon(Icons.restore_from_trash),
                 ),
               ],
             ),
-            Container(
-              child: BlocBuilder<ClickCubit, ClickState>(
-                builder: (context, state) {
-                  List<Text> elements = [];
-                  if (state is Click) {
-                    for (var log in state.logs) {
-                      elements.add(
-                        Text(
-                          log,
-                        ),
-                      );
+            Center(
+              child: Container(
+                child: BlocBuilder<ClickCubit, ClickState>(
+                  builder: (context, state) {
+                    List<Text> elements = [];
+                    if (state is Click) {
+                      for (var log in state.logs) {
+                        elements.add(
+                          Text(
+                            log,
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
                     }
-                  }
-                  return ListView(
-                    shrinkWrap: true,
-                    children: elements,
-                  );
-                },
+                    return ListView(
+                      shrinkWrap: true,
+                      children: elements,
+                    );
+                  },
+                ),
               ),
             ),
           ],
