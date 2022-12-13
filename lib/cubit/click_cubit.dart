@@ -8,7 +8,6 @@ class ClickCubit extends Cubit<ClickState> {
   ClickCubit() : super(ClickInitial()) {
     Timer.periodic(const Duration(seconds: 1), (timer) {
       mytimer++;
-
       if (mytimer >= 5) {
         plus(updateCount: false);
       }
