@@ -44,72 +44,74 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: BlocBuilder<ClickCubit, ClickState>(
-                builder: (context, state) {
-                  if (state is Click) {
-                    return Text(state.count.toString());
-                  }
-                  return const Text("");
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(
-                  onPressed: () => context.read<ClickCubit>().minus(),
-                  tooltip: '-',
-                  child: const Icon(Icons.remove),
-                ),
-                FloatingActionButton(
-                  onPressed: () => context.read<ClickCubit>().plus(),
-                  tooltip: '+',
-                  child: const Icon(Icons.add),
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    context.read<ClickCubit>().changeTheme();
-                    context.read<theme_cubit>().changeTheme();
-                  },
-                  tooltip: 'theme',
-                  child: const Icon(Icons.sunny),
-                ),
-                FloatingActionButton(
-                  onPressed: () => context.read<ClickCubit>().delete(),
-                  tooltip: 'delete share',
-                  child: const Icon(Icons.restore_from_trash),
-                ),
-              ],
-            ),
-            Center(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(30.0),
                 child: BlocBuilder<ClickCubit, ClickState>(
                   builder: (context, state) {
-                    List<Text> elements = [];
                     if (state is Click) {
-                      for (var log in state.logs) {
-                        elements.add(
-                          Text(
-                            log,
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
+                      return Text(state.count.toString());
                     }
-                    return ListView(
-                      shrinkWrap: true,
-                      children: elements,
-                    );
+                    return const Text("");
                   },
                 ),
               ),
-            ),
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FloatingActionButton(
+                    onPressed: () => context.read<ClickCubit>().minus(),
+                    tooltip: '-',
+                    child: const Icon(Icons.remove),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () => context.read<ClickCubit>().plus(),
+                    tooltip: '+',
+                    child: const Icon(Icons.add),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      context.read<ClickCubit>().changeTheme();
+                      context.read<theme_cubit>().changeTheme();
+                    },
+                    tooltip: 'theme',
+                    child: const Icon(Icons.sunny),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () => context.read<ClickCubit>().delete(),
+                    tooltip: 'delete share',
+                    child: const Icon(Icons.restore_from_trash),
+                  ),
+                ],
+              ),
+              Center(
+                child: Container(
+                  child: BlocBuilder<ClickCubit, ClickState>(
+                    builder: (context, state) {
+                      List<Text> elements = [];
+                      if (state is Click) {
+                        for (var log in state.logs) {
+                          elements.add(
+                            Text(
+                              log,
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }
+                      }
+                      return ListView(
+                        shrinkWrap: true,
+                        children: elements,
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
