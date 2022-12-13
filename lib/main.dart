@@ -88,26 +88,24 @@ class MyHomePage extends StatelessWidget {
                 ],
               ),
               Center(
-                child: Container(
-                  child: BlocBuilder<ClickCubit, ClickState>(
-                    builder: (context, state) {
-                      List<Text> elements = [];
-                      if (state is Click) {
-                        for (var log in state.logs) {
-                          elements.add(
-                            Text(
-                              log,
-                              textAlign: TextAlign.center,
-                            ),
-                          );
-                        }
+                child: BlocBuilder<ClickCubit, ClickState>(
+                  builder: (context, state) {
+                    List<Text> elements = [];
+                    if (state is Click) {
+                      for (var log in state.logs) {
+                        elements.add(
+                          Text(
+                            log,
+                            textAlign: TextAlign.center,
+                          ),
+                        );
                       }
-                      return ListView(
-                        shrinkWrap: true,
-                        children: elements,
-                      );
-                    },
-                  ),
+                    }
+                    return ListView(
+                      shrinkWrap: true,
+                      children: elements,
+                    );
+                  },
                 ),
               ),
             ],
